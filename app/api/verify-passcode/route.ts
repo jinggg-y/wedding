@@ -1,17 +1,22 @@
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
-  const { passcode } = await request.json();
+  try {
+    const { passcode } = await request.json();
 
-  const config = await prisma.siteConfig.findUnique({ where: { key: "passcode" } });
+    const config = await prisma.siteConfig.findUnique({ where: { key: "passcode" } });
 
-  if (!config) {
-    return Response.json({ error: "Passcode not set" }, { status: 503 });
+    if (!config) {
+      return Response.json({ error: "Passcode not set" }, { status: 503 });
+    }
+
+    if (passcode !== config.value) {
+      return Response.json({ error: "Incorrect passcode" }, { status: 401 });
+    }
+
+    return Response.json({ success: true });
+  } catch (e) {
+    console.error("[POST /api/verify-passcode]", e);
+    return Response.json({ error: "Database error" }, { status: 500 });
   }
-
-  if (passcode !== config.value) {
-    return Response.json({ error: "Incorrect passcode" }, { status: 401 });
-  }
-
-  return Response.json({ success: true });
 }
