@@ -20,3 +20,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-cormorant-garamond), serif;
 }
+
+@layer base {
+  h1 {
+    font-size: var(--text-5xl);
+  }
+  p {
+    font-size: var(--text-lg);
+  }
+}

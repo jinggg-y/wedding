@@ -21,6 +21,7 @@ export default function AdminNav() {
         </span>
         <div className="flex items-center gap-1">
           <NavLink href="/admin" active={pathname === "/admin"}>Settings</NavLink>
+          <NavLink href="/admin/events" active={pathname === "/admin/events"}>Events</NavLink>
           <NavLink href="/admin/contacts" active={pathname === "/admin/contacts"}>Contacts</NavLink>
           <button
             onClick={handleLogout}
