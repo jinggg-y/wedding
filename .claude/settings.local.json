@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm install *)",
+      "PowerShell(npx prisma db push 2>&1)",
+      "PowerShell(npx prisma generate 2>&1 | Select-Object -Last 3)",
+      "PowerShell(npm run *)"
+    ]
+  }
+}
