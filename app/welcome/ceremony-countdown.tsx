@@ -89,7 +89,7 @@ export default function CeremonyCountdown() {
 
       {past && (
         <>
-          <p className="text-black/60 tracking-wide italic">
+          <p className="tracking-wide italic">
             Join us as we begin our forever.
           </p>
           <EventDetails date={formattedDate} time={formattedTime} venue={ceremony_venue} />
