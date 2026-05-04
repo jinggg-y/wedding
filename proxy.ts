@@ -2,20 +2,27 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-  const hasAccess = request.cookies.get("wedding-access")?.value === "1";
+  const hasGuestAccess = request.cookies.get("wedding-access")?.value === "1";
+  const hasAdminAuth = request.cookies.get("admin-auth")?.value === "1";
   const { pathname } = request.nextUrl;
 
-  // Redirect unauthenticated guests away from protected pages
-  if (pathname.startsWith("/welcome") && !hasAccess) {
+  // --- Guest routes ---
+  if (pathname.startsWith("/welcome") && !hasGuestAccess) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-
-  // Skip the landing page if already authenticated
-  if (pathname === "/" && hasAccess) {
+  if (pathname === "/" && hasGuestAccess) {
     return NextResponse.redirect(new URL("/welcome", request.url));
+  }
+
+  // --- Admin routes ---
+  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !hasAdminAuth) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+  if (pathname.startsWith("/admin/login") && hasAdminAuth) {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/", "/welcome/:path*"],
+  matcher: ["/", "/welcome/:path*", "/admin/:path*", "/admin"],
 };

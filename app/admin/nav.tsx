@@ -1,10 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function AdminNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+    router.refresh();
+  }
 
   return (
     <nav className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
@@ -15,6 +22,12 @@ export default function AdminNav() {
         <div className="flex items-center gap-1">
           <NavLink href="/admin" active={pathname === "/admin"}>Settings</NavLink>
           <NavLink href="/admin/contacts" active={pathname === "/admin/contacts"}>Contacts</NavLink>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-1.5 rounded-md text-sm font-normal text-zinc-400 hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors ml-2"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>
