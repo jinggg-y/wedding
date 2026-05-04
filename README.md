@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wedding Site
+
+A private wedding website with a passcode-protected guest experience and an admin panel for managing invitations.
+
+## Tech Stack
+
+| Layer | Technology | Version |
+|---|---|---|
+| Framework | [Next.js](https://nextjs.org) (App Router) | 16.2.4 |
+| Language | TypeScript | 5.9.3 |
+| UI Library | React | 19.2.4 |
+| Styling | Tailwind CSS v4 | 4.2.2 |
+| Font | Cormorant Garamond via `next/font/google` | — |
+| ORM | Prisma | 7.8.0 |
+| Database | [Neon](https://neon.tech) (serverless PostgreSQL) | — |
+| DB Driver | `@neondatabase/serverless` + `@prisma/adapter-neon` (HTTP) | 1.1.0 / 7.8.0 |
+
+## Key Features
+
+- **Passcode gate** — guests enter a passcode on the landing page to access the site; enforced via `proxy.ts` (Next.js v16 server proxy)
+- **Admin panel** — `/admin` for site settings (passcode management) and `/admin/contacts` for invitation contacts
+- **Contacts CRUD** — add, edit, delete, and filter contacts by group; stored in Neon PostgreSQL via Prisma
+
+## Theme
+
+- **Background:** Cloud Dancer (`#F0EDE8`)
+- **Accent:** Viva Magenta (`#BB2649`)
+- **Text:** Black
+
+## Project Structure
+
+```
+app/
+  page.tsx              # Landing page (passcode entry)
+  welcome/              # Post-login welcome page
+  admin/
+    page.tsx            # Admin settings (passcode)
+    contacts/           # Contacts management
+  api/
+    verify-passcode/    # POST — validate guest passcode
+    contacts/           # GET, POST, PUT, DELETE contacts
+    admin/settings/     # GET, POST site config (passcode)
+lib/
+  prisma.ts             # Prisma client singleton
+prisma/
+  schema.prisma         # Contact + SiteConfig models
+proxy.ts                # Route protection (Next.js v16 proxy)
+```
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Create `.env.local` with your Neon connection string:
+   ```
+   DATABASE_URL="postgresql://..."
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Push the schema to your database:
+   ```bash
+   npx prisma db push
+   npx prisma generate
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Run the dev server:
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Open [http://localhost:3000/admin](http://localhost:3000/admin) to set a passcode, then visit [http://localhost:3000](http://localhost:3000) to test the guest flow.
