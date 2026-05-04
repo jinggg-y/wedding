@@ -14,7 +14,8 @@ export async function POST(request: Request) {
 
     const response = Response.json({ success: true });
     const headers = new Headers(response.headers);
-    headers.set("Set-Cookie", "admin-auth=1; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400");
+    const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+    headers.set("Set-Cookie", `admin-auth=1; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400${secure}`);
     return new Response(response.body, { status: 200, headers });
   } catch (e) {
     console.error("[POST /api/admin/login]", e);
