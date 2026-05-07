@@ -26,8 +26,8 @@ export default function WelcomePage() {
             className="shrink-0 border-b border-deep-charcoal/10 px-8 md:px-20 py-4 flex justify-between items-center"
             style={{ animation: "fadeUp 0.5s ease both" }}
           >
-            <span className="label text-deep-charcoal/35">D &amp; J</span>
-            <span className="label text-deep-charcoal/35">2026 &middot; Brisbane</span>
+            <span className="label text-deep-charcoal/65">D &amp; J</span>
+            <span className="label text-deep-charcoal/65">2026 &middot; Brisbane</span>
           </header>
 
           {/* Hero content */}
@@ -71,7 +71,7 @@ export default function WelcomePage() {
               className="mt-10 border-t border-deep-charcoal/10 pt-6 max-w-xs"
               style={{ animation: "fadeUp 0.6s 0.15s ease both" }}
             >
-              <span className="label text-deep-charcoal/70">
+              <span className="label text-deep-charcoal/80">
                 Invite you to celebrate their marriage
               </span>
             </div>
@@ -82,7 +82,7 @@ export default function WelcomePage() {
               className="absolute bottom-10 left-8 md:left-20 flex flex-col items-start gap-3"
               style={{ animation: "fadeUp 0.6s 0.3s ease both" }}
             >
-              <span className="label text-deep-charcoal/25 text-[0.55rem]">Scroll</span>
+              <span className="label text-deep-charcoal/65 text-[0.55rem]">Scroll</span>
               <div className="relative w-0.5 h-10 overflow-hidden" style={{ background: "rgba(28,26,23,0.10)" }}>
                 <div
                   className="absolute inset-x-0 top-0 h-1/2"
@@ -112,7 +112,7 @@ export default function WelcomePage() {
           className="snap-section border-t border-deep-charcoal/10 flex flex-col items-center justify-center text-center px-8 md:px-20"
         >
           <ScrollReveal>
-            <div aria-hidden="true" className="label text-deep-charcoal/30 mb-10">
+            <div aria-hidden="true" className="label text-deep-charcoal/65 mb-10">
               01 &mdash; RSVP
             </div>
             <h2
@@ -147,7 +147,7 @@ export default function WelcomePage() {
           {/* Section label */}
           <div className="shrink-0 px-8 md:px-20 pt-10 pb-6">
             <ScrollReveal>
-              <div aria-hidden="true" className="label text-deep-charcoal/30">
+              <div aria-hidden="true" className="label text-deep-charcoal/65">
                 02 &mdash; Our Story
               </div>
             </ScrollReveal>
@@ -162,7 +162,7 @@ export default function WelcomePage() {
               className="md:col-span-7 flex items-end p-8 md:p-12"
               style={{ background: "rgba(28,26,23,0.05)" }}
             >
-              <span aria-hidden="true" className="label text-deep-charcoal/20 text-[0.55rem]">
+              <span aria-hidden="true" className="label text-deep-charcoal/65 text-[0.55rem]">
                 Photo — Dimitrije &amp; Jing
               </span>
             </div>
@@ -185,7 +185,7 @@ export default function WelcomePage() {
                 >
                   &ldquo;Two cities, one moment,<br />a lifetime ahead.&rdquo;
                 </blockquote>
-                <p style={{ fontSize: "0.85rem", color: "rgba(244,240,235,0.65)", fontWeight: 300, lineHeight: 1.85 }}>
+                <p style={{ fontSize: "0.85rem", color: "rgba(244,240,235,0.80)", fontWeight: 300, lineHeight: 1.85 }}>
                   Placeholder — add a few sentences about how you met, what brought you together, and what this day means to you both.
                 </p>
               </ScrollReveal>
@@ -219,7 +219,7 @@ export default function WelcomePage() {
                 >
                   Brisbane<br />2026
                 </div>
-                <p style={{ fontSize: "0.8rem", color: "rgba(28,26,23,0.65)", fontWeight: 300, lineHeight: 1.85 }}>
+                <p style={{ fontSize: "0.8rem", color: "rgba(28,26,23,0.80)", fontWeight: 300, lineHeight: 1.85 }}>
                   Placeholder — a line about your connection to Brisbane, or a detail about the journey that brought you here.
                 </p>
               </ScrollReveal>
@@ -232,7 +232,7 @@ export default function WelcomePage() {
               className="md:col-span-7 flex items-end p-8 md:p-12"
               style={{ background: "rgba(28,26,23,0.06)" }}
             >
-              <span aria-hidden="true" className="label text-deep-charcoal/20 text-[0.55rem]">
+              <span aria-hidden="true" className="label text-deep-charcoal/65 text-[0.55rem]">
                 Photo — Brisbane, 2026
               </span>
             </div>
@@ -256,7 +256,7 @@ export default function WelcomePage() {
             >
               Dimitrije<br /><em style={{ fontStyle: "italic" }}>&amp; Jing</em>
             </div>
-            <div className="label text-deep-charcoal/35 mt-6">Brisbane &middot; 2026</div>
+            <div aria-hidden="true" className="label text-deep-charcoal/65 mt-6">Brisbane &middot; 2026</div>
           </ScrollReveal>
         </footer>
 

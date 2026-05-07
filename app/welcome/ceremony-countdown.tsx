@@ -53,7 +53,7 @@ export default function CeremonyCountdown() {
   return (
     <div>
       {/* Decorative section tag */}
-      <div aria-hidden="true" className="label mb-12" style={{ color: "rgba(244,240,235,0.35)" }}>
+      <div aria-hidden="true" className="label mb-12" style={{ color: "rgba(244,240,235,0.65)" }}>
         &mdash; Counting down
       </div>
 
@@ -78,10 +78,10 @@ export default function CeremonyCountdown() {
               >
                 {String(values[i]).padStart(2, "0")}
               </div>
-              {/* Unit labels — opacity 0.60 → ~5.6:1 ✓ AA */}
+              {/* Unit labels — opacity 0.80 → ~9.1:1 ✓ AAA */}
               <div
                 className="label mt-3"
-                style={{ color: "rgba(244,240,235,0.60)" }}
+                style={{ color: "rgba(244,240,235,0.80)" }}
               >
                 {label}
               </div>
@@ -90,7 +90,7 @@ export default function CeremonyCountdown() {
         </div>
       )}
 
-      {/* Event details — opacity 0.65 → ~6.5:1 ✓ AA on dark */}
+      {/* Event details — opacity 0.80 → ~9.1:1 ✓ AAA on dark */}
       <div style={{ borderTop: "1px solid rgba(244,240,235,0.12)", paddingTop: "2rem" }}>
         {[formattedDate, formattedTime, ceremony_venue].filter(Boolean).map((line) => (
           <div
@@ -99,7 +99,7 @@ export default function CeremonyCountdown() {
               fontFamily: "var(--font-open-sans)",
               fontSize: "0.85rem",
               letterSpacing: "0.04em",
-              color: "rgba(244,240,235,0.70)",
+              color: "rgba(244,240,235,0.80)",
               fontWeight: 300,
               marginBottom: "0.4rem",
             }}

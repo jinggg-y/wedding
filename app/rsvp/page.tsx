@@ -62,7 +62,7 @@ function formatEventDetail(dateStr?: string, timeStr?: string, venue?: string): 
 }
 
 const inputClass =
-  "w-full px-0 py-2.5 bg-transparent border-0 border-b border-deep-charcoal/20 text-deep-charcoal text-md focus:outline-none focus:border-deep-charcoal/60 transition-colors placeholder:text-deep-charcoal/25 font-[var(--font-open-sans)]";
+  "w-full px-0 py-2.5 bg-transparent border-0 border-b border-deep-charcoal/20 text-deep-charcoal text-md focus:outline-none focus:border-deep-charcoal/60 transition-colors placeholder:text-deep-charcoal/65";
 
 export default function RsvpPage() {
   const [step, setStep] = useState<Step>("lookup");
@@ -103,8 +103,9 @@ export default function RsvpPage() {
       const data = await res.json();
       setContact(data.contact);
 
+      const rsvpList: ExistingRsvp[] = Array.isArray(data.rsvps) ? data.rsvps : [];
       const initial: EventRsvpState[] = (data.contact.invitedEvents as string[]).map((event: string) => {
-        const existing = (data.rsvps as ExistingRsvp[]).find(r => r.event === event);
+        const existing = rsvpList.find(r => r.event === event);
         return {
           event,
           attending: existing != null ? existing.attending : null,
@@ -112,9 +113,9 @@ export default function RsvpPage() {
         };
       });
       setEventRsvps(initial);
-      setNotes((data.rsvps as ExistingRsvp[]).find(r => r.notes)?.notes ?? "");
-      setIsUpdate((data.rsvps as ExistingRsvp[]).length > 0);
-      setStep("form");
+      setNotes(rsvpList.find(r => r.notes)?.notes ?? "");
+      setIsUpdate(rsvpList.length > 0);
+      setStep(rsvpList.length > 0 ? "done" : "form");
     } catch {
       setLookupError("Something went wrong. Please try again.");
     }
@@ -160,26 +161,27 @@ export default function RsvpPage() {
   const declining = eventRsvps.filter(r => r.attending === false);
 
   return (
-    <div className="min-h-screen bg-cloud-dancer text-deep-charcoal">
+    <div className="min-h-screen bg-cloud-dancer text-deep-charcoal flex flex-col">
 
       {/* Header */}
-      <header className="border-b border-deep-charcoal/10 px-8 md:px-20 py-4 flex justify-between items-center">
+      <header className="shrink-0 border-b border-deep-charcoal/10 px-8 md:px-20 py-4 flex justify-between items-center">
         <Link
           href="/welcome"
-          className="label text-deep-charcoal/35 hover:text-deep-charcoal/60 transition-colors duration-300"
+          className="label text-deep-charcoal/80 hover:text-deep-charcoal transition-colors duration-300"
         >
           D &amp; J
         </Link>
-        <span aria-hidden="true" className="label text-deep-charcoal/35">RSVP</span>
-        <span aria-hidden="true" className="label text-deep-charcoal/35">2026 &middot; Brisbane</span>
+        <span aria-hidden="true" className="label text-deep-charcoal/65">RSVP</span>
+        <span aria-hidden="true" className="label text-deep-charcoal/65">2026 &middot; Brisbane</span>
       </header>
 
-      <main className="px-8 md:px-20 py-20 max-w-2xl">
+      <main className="flex-1 flex items-center px-8 md:px-20 py-16">
+        <div className="w-full max-w-2xl">
 
         {/* ── STEP 1: LOOKUP ──────────────────────────────── */}
         {step === "lookup" && (
           <div style={{ animation: "fadeUp 0.6s ease both" }}>
-            <div aria-hidden="true" className="label text-deep-charcoal/30 mb-14">
+            <div aria-hidden="true" className="label text-deep-charcoal/65 mb-20">
               &mdash; RSVP
             </div>
             <h1
@@ -189,7 +191,7 @@ export default function RsvpPage() {
                 fontWeight: 300,
                 letterSpacing: "0.04em",
                 lineHeight: 1.1,
-                marginBottom: "1.5rem",
+                marginBottom: "2.5rem",
               }}
             >
               Find your<br /><em style={{ fontStyle: "italic" }}>invitation.</em>
@@ -198,7 +200,7 @@ export default function RsvpPage() {
               style={{
                 fontFamily: "var(--font-open-sans)",
                 fontSize: "0.875rem",
-                color: "rgba(28,26,23,0.65)",
+                color: "rgba(28,26,23,0.80)",
                 lineHeight: 1.85,
                 marginBottom: "3.5rem",
               }}
@@ -206,10 +208,10 @@ export default function RsvpPage() {
               Enter your name to locate your invitation and confirm your attendance at our celebration.
             </p>
 
-            <form onSubmit={handleLookup} className="space-y-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <label className="flex flex-col gap-2">
-                  <span className="label text-deep-charcoal/50 text-[0.58rem]">First name</span>
+            <form onSubmit={handleLookup} className="space-y-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <label className="flex flex-col gap-3">
+                  <span className="label text-deep-charcoal/80 text-[0.58rem]">First name</span>
                   <input
                     type="text"
                     value={firstName}
@@ -219,8 +221,8 @@ export default function RsvpPage() {
                     className={inputClass}
                   />
                 </label>
-                <label className="flex flex-col gap-2">
-                  <span className="label text-deep-charcoal/50 text-[0.58rem]">Last name</span>
+                <label className="flex flex-col gap-3">
+                  <span className="label text-deep-charcoal/80 text-[0.58rem]">Last name</span>
                   <input
                     type="text"
                     value={lastName}
@@ -260,7 +262,7 @@ export default function RsvpPage() {
         {/* ── STEP 2: RSVP FORM ───────────────────────────── */}
         {step === "form" && contact && (
           <div style={{ animation: "fadeUp 0.6s ease both" }}>
-            <div aria-hidden="true" className="label text-deep-charcoal/30 mb-14">
+            <div aria-hidden="true" className="label text-deep-charcoal/65 mb-20">
               &mdash; RSVP
             </div>
             <h1
@@ -270,7 +272,7 @@ export default function RsvpPage() {
                 fontWeight: 300,
                 letterSpacing: "0.04em",
                 lineHeight: 1.1,
-                marginBottom: "1rem",
+                marginBottom: "2.5rem",
               }}
             >
               Hello,{" "}
@@ -280,7 +282,7 @@ export default function RsvpPage() {
               style={{
                 fontFamily: "var(--font-open-sans)",
                 fontSize: "0.875rem",
-                color: "rgba(28,26,23,0.65)",
+                color: "rgba(28,26,23,0.80)",
                 lineHeight: 1.85,
                 marginBottom: "3.5rem",
               }}
@@ -302,10 +304,10 @@ export default function RsvpPage() {
                 const { datetime, venue: venueFormatted } = formatEventDetail(dateStr, timeStr, venue);
 
                 return (
-                  <div key={rsvp.event} className="border-t border-deep-charcoal/10 py-10">
+                  <div key={rsvp.event} className="border-t border-deep-charcoal/10 py-16">
                     {/* Event heading */}
-                    <div className="flex items-baseline gap-4 mb-1">
-                      <span aria-hidden="true" className="label text-deep-charcoal/25 text-[0.55rem]">
+                    <div className="flex items-baseline gap-4 mb-3">
+                      <span aria-hidden="true" className="label text-deep-charcoal/65 text-[0.55rem]">
                         {config.num}
                       </span>
                       <span
@@ -323,11 +325,11 @@ export default function RsvpPage() {
                     {/* Event details */}
                     {(datetime || venueFormatted) && (
                       <div
-                        className="mb-8"
+                        className="mb-12"
                         style={{
                           fontFamily: "var(--font-open-sans)",
                           fontSize: "0.8rem",
-                          color: "rgba(28,26,23,0.50)",
+                          color: "rgba(28,26,23,0.80)",
                           lineHeight: 1.7,
                         }}
                       >
@@ -336,13 +338,27 @@ export default function RsvpPage() {
                       </div>
                     )}
 
+                    {/* Dietary */}
+                    <label className="flex flex-col gap-3 mb-12">
+                      <span className="label text-deep-charcoal/80 text-[0.58rem]">
+                        Dietary requirements (optional)
+                      </span>
+                      <input
+                        type="text"
+                        value={rsvp.dietary}
+                        onChange={e => setDietary(rsvp.event, e.target.value)}
+                        placeholder="e.g. Vegetarian, gluten free, nut allergy"
+                        className={inputClass}
+                      />
+                    </label>
+
                     {/* Attending toggle */}
-                    <div className="mb-2">
-                      <span className="label text-deep-charcoal/45 text-[0.58rem]">
+                    <div className="mb-5">
+                      <span className="label text-deep-charcoal/80 text-[0.58rem]">
                         Will you be joining us?
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-3 mb-6" role="group" aria-label={`Attendance for ${config.label}`}>
+                    <div className="flex flex-wrap gap-4" role="group" aria-label={`Attendance for ${config.label}`}>
                       <button
                         type="button"
                         onClick={() => setAttending(rsvp.event, true)}
@@ -350,7 +366,7 @@ export default function RsvpPage() {
                         className="label px-8 py-3 transition-all duration-200"
                         style={{
                           background: rsvp.attending === true ? "#BB2649" : "transparent",
-                          color: rsvp.attending === true ? "#F4F0EB" : "rgba(28,26,23,0.45)",
+                          color: rsvp.attending === true ? "#F4F0EB" : "rgba(28,26,23,0.80)",
                           border: rsvp.attending === true
                             ? "1px solid #BB2649"
                             : "1px solid rgba(28,26,23,0.18)",
@@ -365,7 +381,7 @@ export default function RsvpPage() {
                         className="label px-8 py-3 transition-all duration-200"
                         style={{
                           background: rsvp.attending === false ? "#1C1A17" : "transparent",
-                          color: rsvp.attending === false ? "#F4F0EB" : "rgba(28,26,23,0.45)",
+                          color: rsvp.attending === false ? "#F4F0EB" : "rgba(28,26,23,0.80)",
                           border: rsvp.attending === false
                             ? "1px solid #1C1A17"
                             : "1px solid rgba(28,26,23,0.18)",
@@ -375,29 +391,25 @@ export default function RsvpPage() {
                       </button>
                     </div>
 
-                    {/* Dietary — shown only when attending */}
-                    {rsvp.attending === true && (
-                      <label className="flex flex-col gap-2">
-                        <span className="label text-deep-charcoal/45 text-[0.58rem]">
-                          Dietary requirements (optional)
-                        </span>
-                        <input
-                          type="text"
-                          value={rsvp.dietary}
-                          onChange={e => setDietary(rsvp.event, e.target.value)}
-                          placeholder="e.g. Vegetarian, gluten free, nut allergy"
-                          className={inputClass}
-                        />
-                      </label>
+                    {/* Status confirmation */}
+                    {rsvp.attending !== null && (
+                      <p
+                        className="mt-3 label text-[0.58rem]"
+                        style={{
+                          color: rsvp.attending ? "#BB2649" : "rgba(28,26,23,0.80)",
+                        }}
+                      >
+                        {rsvp.attending ? "✓ Attending" : "✗ Not attending"}
+                      </p>
                     )}
                   </div>
                 );
               })}
 
               {/* Notes */}
-              <div className="border-t border-deep-charcoal/10 py-10">
-                <label className="flex flex-col gap-2">
-                  <span className="label text-deep-charcoal/45 text-[0.58rem]">
+              <div className="border-t border-deep-charcoal/10 py-16">
+                <label className="flex flex-col gap-3">
+                  <span className="label text-deep-charcoal/80 text-[0.58rem]">
                     Anything else we should know? (optional)
                   </span>
                   <textarea
@@ -411,7 +423,7 @@ export default function RsvpPage() {
               </div>
 
               {/* Submit */}
-              <div className="pt-2 pb-16">
+              <div className="pt-8 pb-20">
                 <button
                   type="submit"
                   disabled={!allAnswered || submitLoading}
@@ -424,7 +436,7 @@ export default function RsvpPage() {
                     : "Confirm RSVP"}
                 </button>
                 {!allAnswered && (
-                  <p className="mt-4 label text-deep-charcoal/35 text-[0.55rem]">
+                  <p className="mt-4 label text-deep-charcoal/80 text-[0.55rem]">
                     Please respond to every event above to continue.
                   </p>
                 )}
@@ -436,7 +448,7 @@ export default function RsvpPage() {
         {/* ── STEP 3: DONE ────────────────────────────────── */}
         {step === "done" && contact && (
           <div style={{ animation: "fadeUp 0.6s ease both" }}>
-            <div aria-hidden="true" className="label text-deep-charcoal/30 mb-14">
+            <div aria-hidden="true" className="label text-deep-charcoal/65 mb-20">
               &mdash; RSVP
             </div>
             <h1
@@ -457,7 +469,7 @@ export default function RsvpPage() {
               style={{
                 fontFamily: "var(--font-open-sans)",
                 fontSize: "0.875rem",
-                color: "rgba(28,26,23,0.65)",
+                color: "rgba(28,26,23,0.80)",
                 lineHeight: 1.85,
                 marginBottom: "3.5rem",
               }}
@@ -468,9 +480,9 @@ export default function RsvpPage() {
             </p>
 
             {attending.length > 0 && (
-              <div className="mb-8 border-t border-deep-charcoal/10 pt-8">
-                <div className="label text-viva-magenta mb-4">Attending</div>
-                <div className="space-y-2">
+              <div className="mb-12 border-t border-deep-charcoal/10 pt-12">
+                <div className="label text-viva-magenta mb-6">Attending</div>
+                <div className="space-y-5">
                   {attending.map(r => (
                     <div key={r.event} className="flex items-baseline gap-4">
                       <span
@@ -488,7 +500,7 @@ export default function RsvpPage() {
                           style={{
                             fontFamily: "var(--font-open-sans)",
                             fontSize: "0.75rem",
-                            color: "rgba(28,26,23,0.45)",
+                            color: "rgba(28,26,23,0.80)",
                           }}
                         >
                           {r.dietary}
@@ -501,9 +513,9 @@ export default function RsvpPage() {
             )}
 
             {declining.length > 0 && (
-              <div className="mb-12 border-t border-deep-charcoal/10 pt-8">
-                <div className="label text-deep-charcoal/35 mb-4">Not attending</div>
-                <div className="space-y-2">
+              <div className="mb-16 border-t border-deep-charcoal/10 pt-12">
+                <div className="label text-deep-charcoal/80 mb-6">Not attending</div>
+                <div className="space-y-5">
                   {declining.map(r => (
                     <div
                       key={r.event}
@@ -512,7 +524,7 @@ export default function RsvpPage() {
                         fontSize: "1.3rem",
                         fontWeight: 300,
                         letterSpacing: "0.04em",
-                        color: "rgba(28,26,23,0.40)",
+                        color: "rgba(28,26,23,0.80)",
                       }}
                     >
                       {EVENT_CONFIG[r.event]?.label ?? r.event}
@@ -522,16 +534,16 @@ export default function RsvpPage() {
               </div>
             )}
 
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex gap-6 flex-wrap">
               <button
                 onClick={() => { setStep("form"); }}
-                className="label inline-block px-8 py-3 border border-deep-charcoal/20 text-deep-charcoal/60 hover:border-deep-charcoal/50 hover:text-deep-charcoal transition-colors duration-300"
+                className="label inline-block px-8 py-3 border border-deep-charcoal/20 text-deep-charcoal/80 hover:border-deep-charcoal/60 hover:text-deep-charcoal transition-colors duration-300"
               >
                 Edit responses
               </button>
               <Link
                 href="/welcome"
-                className="label inline-block px-8 py-3 text-deep-charcoal/40 hover:text-deep-charcoal/70 transition-colors duration-300"
+                className="label inline-block px-8 py-3 text-deep-charcoal/80 hover:text-deep-charcoal transition-colors duration-300"
               >
                 &larr; Back to welcome
               </Link>
@@ -539,6 +551,7 @@ export default function RsvpPage() {
           </div>
         )}
 
+        </div>
       </main>
     </div>
   );

@@ -43,9 +43,9 @@ Valid uses: CTAs, hover states, countdown numbers, active nav links, key divider
 | h2 | Cormorant Garamond | 3xl–4xl | 400 | 0.15em | uppercase | 1.2 |
 | h3 | Cormorant Garamond | 2xl | 400 | 0.08em | — | 1.3 |
 | h4 | Cormorant Garamond | xl | 400 | 0.05em | — | 1.4 |
-| `p` | Open Sans | lg | 300–400 | 0.02em | — | 1.75 |
+| `p` | Open Sans | lg | 300–400 | 0.08em | — | 1.75 |
 | `small` | Cormorant Garamond | sm | 400 | 0.06em | — | — |
-| `label` | Cormorant Garamond | xs | 400 | 0.12em | uppercase | — |
+| `label` | Open Sans | base | 400 | 0.1em | uppercase | — |
 
 - Display headings: tight line-height (1.1)
 - Body: generous line-height (1.75)
@@ -139,7 +139,9 @@ This site targets WCAG 2.1 Level AA.
 | Viva Magenta `#BB2649` on Cloud Dancer `#F4F0EB` | 5.3 : 1 | ✓ AA |
 | Viva Magenta `#BB2649` on Deep Charcoal `#1C1A17` | 3.0 : 1 | large text only |
 
-### Opacity-Reduced Text — Minimum to Meet AA
+### Opacity-Reduced Text — Design Minimum
+
+**All visible text must use opacity > 0.75.** This is stricter than WCAG AA and is a deliberate design choice — lower opacities read as weak and undermine the editorial tone.
 
 Opacity-reduced text is composited against the background before measuring contrast.
 
@@ -148,19 +150,18 @@ Opacity-reduced text is composited against the background before measuring contr
 | Opacity | Effective ratio | Use for |
 |---|---|---|
 | 1.00 | 15.7 : 1 | Any text |
-| 0.70 | ~6.2 : 1 | Body text, labels ≥ 12px |
-| 0.65 | ~5.2 : 1 | Minimum for normal text |
-| 0.50 | ~3.2 : 1 | Large text ≥ 24px only |
-| < 0.50 | < 3 : 1 | Decorative only — must be `aria-hidden` |
+| 0.80 | ~9.1 : 1 | Secondary body text, supporting labels |
+| 0.75 | ~8.0 : 1 | Minimum for any visible text ← hard floor |
+| < 0.75 | < 8 : 1 | Decorative only — must be `aria-hidden` |
 
 **On Deep Charcoal `#1C1A17`:**
 
 | Opacity | Effective ratio | Use for |
 |---|---|---|
 | 1.00 | 15.7 : 1 | Any text |
-| 0.60 | ~5.6 : 1 | Body text, labels ≥ 12px |
-| 0.55 | ~4.8 : 1 | Minimum for normal text |
-| < 0.45 | < 3 : 1 | Decorative only — must be `aria-hidden` |
+| 0.80 | ~9.1 : 1 | Secondary body text, supporting labels |
+| 0.75 | ~8.0 : 1 | Minimum for any visible text ← hard floor |
+| < 0.75 | < 8 : 1 | Decorative only — must be `aria-hidden` |
 
 ### Decorative vs. Informational Text
 
