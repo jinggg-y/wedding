@@ -36,10 +36,10 @@ export default function LandingPage() {
       <div className="w-full max-w-sm space-y-10 text-center">
         {/* Monogram / title area */}
         <div className="space-y-3">
-          <h1 className="text-4xl font-normal tracking-widest text-black uppercase">
+          <h1 className="text-4xl font-normal tracking-widest  uppercase">
             You&rsquo;re Invited
           </h1>
-          <p className="text-lg tracking-wider text-black/50">
+          <p className="text-lg tracking-wider /50">
             Enter your passcode to continue
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function LandingPage() {
             placeholder="Passcode"
             autoComplete="off"
             required
-            className="w-full px-4 py-3 text-center text-black tracking-[0.3em] bg-white border border-black/10 rounded-lg text-sm placeholder:tracking-normal placeholder:text-black/30 focus:outline-none focus:border-viva-magenta focus:ring-1 focus:ring-viva-magenta transition-colors"
+            className="w-full px-4 py-3 text-center  tracking-[0.3em] bg-white border border-black/10 rounded-lg text-sm placeholder:tracking-normal placeholder:/30 focus:outline-none focus:border-viva-magenta focus:ring-1 focus:ring-viva-magenta transition-colors"
           />
 
           {error && (

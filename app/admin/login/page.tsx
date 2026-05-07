@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4" style={{ fontFamily: "var(--font-geist), sans-serif" }}>
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4" style={{ fontFamily: "var(--font-open-sans), sans-serif" }}>
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center space-y-1">
           <h1 className="text-xl font-normal tracking-widest uppercase text-viva-magenta">Admin</h1>
