@@ -62,6 +62,19 @@ Valid uses: CTAs, hover states, countdown numbers, active nav links, key divider
 
 ---
 
+## Event Naming
+
+There are three events: ceremony, reception, and party. The event key `party` is used in the database, API, and admin interface throughout. Display names differ by context:
+
+| Context | Display name |
+|---|---|
+| Admin UI (contacts, RSVPs) | Party |
+| Guest-facing RSVP page | After Dark Party |
+
+The guest-facing name is intentionally playful and distinct. Do not change the key — `party` is the canonical identifier everywhere in code.
+
+---
+
 ## Navigation
 
 - Minimal top bar, transparent over the hero, opaque (Cloud Dancer) on scroll

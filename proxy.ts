@@ -7,7 +7,10 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // --- Guest routes ---
-  if (pathname.startsWith("/welcome") && !hasGuestAccess) {
+  if (
+    (pathname.startsWith("/welcome") || pathname.startsWith("/rsvp")) &&
+    !hasGuestAccess
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   if (pathname === "/" && hasGuestAccess) {
@@ -24,5 +27,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/welcome/:path*", "/admin/:path*", "/admin"],
+  matcher: ["/", "/welcome/:path*", "/rsvp/:path*", "/admin/:path*", "/admin"],
 };

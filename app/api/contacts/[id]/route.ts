@@ -6,11 +6,19 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { firstName, lastName, phone, email, address, group } = body;
+  const { firstName, lastName, phone, email, address, group, invitedEvents } = body;
 
   const contact = await prisma.contact.update({
     where: { id },
-    data: { firstName, lastName, phone, email, address: address || null, group },
+    data: {
+      firstName,
+      lastName,
+      phone,
+      email,
+      address: address || null,
+      group,
+      invitedEvents: Array.isArray(invitedEvents) ? invitedEvents : [],
+    },
   });
   return Response.json(contact);
 }

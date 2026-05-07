@@ -15,14 +15,22 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, phone, email, address, group } = body;
+    const { firstName, lastName, phone, email, address, group, invitedEvents } = body;
 
     if (!firstName || !lastName || !phone || !email || !group) {
       return Response.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     const contact = await prisma.contact.create({
-      data: { firstName, lastName, phone, email, address: address || null, group },
+      data: {
+        firstName,
+        lastName,
+        phone,
+        email,
+        address: address || null,
+        group,
+        invitedEvents: Array.isArray(invitedEvents) ? invitedEvents : [],
+      },
     });
     return Response.json(contact, { status: 201 });
   } catch (e) {

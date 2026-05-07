@@ -83,7 +83,15 @@ export default function WelcomePage() {
               style={{ animation: "fadeUp 0.6s 0.3s ease both" }}
             >
               <span className="label text-deep-charcoal/25 text-[0.55rem]">Scroll</span>
-              <div className="w-px h-10 bg-deep-charcoal/20" />
+              <div className="relative w-0.5 h-10 overflow-hidden" style={{ background: "rgba(28,26,23,0.10)" }}>
+                <div
+                  className="absolute inset-x-0 top-0 h-1/2"
+                  style={{
+                    background: "rgba(28,26,23,0.45)",
+                    animation: "scrollDrip 1.6s ease-in-out infinite",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </section>

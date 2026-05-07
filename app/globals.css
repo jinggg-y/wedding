@@ -21,6 +21,11 @@
   to   { opacity: 1; transform: translateY(0);     }
 }
 
+@keyframes scrollDrip {
+  0%   { transform: translateY(-100%); opacity: 0.8; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
 .label {
   font-family: var(--font-open-sans);
   font-size: 0.6rem;
@@ -130,5 +135,10 @@ body {
   }
   a:hover {
     color: var(--color-viva-magenta);
+  }
+  input,
+  textarea,
+  select {
+    font-size: var(--text-lg);
   }
 }

@@ -2,6 +2,12 @@
 
 import { cloneElement, useEffect, useState } from "react";
 
+const ALL_EVENTS = [
+  { key: "ceremony",  label: "Ceremony"    },
+  { key: "reception", label: "Reception"   },
+  { key: "party",     label: "Party" },
+] as const;
+
 type Contact = {
   id: string;
   firstName: string;
@@ -10,6 +16,7 @@ type Contact = {
   email: string;
   address: string | null;
   group: string;
+  invitedEvents: string[];
 };
 
 const emptyForm = {
@@ -19,6 +26,7 @@ const emptyForm = {
   email: "",
   address: "",
   group: "",
+  invitedEvents: [] as string[],
 };
 
 export default function ContactsPage() {
@@ -63,6 +71,7 @@ export default function ContactsPage() {
       email: contact.email,
       address: contact.address ?? "",
       group: contact.group,
+      invitedEvents: contact.invitedEvents ?? [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -71,6 +80,15 @@ export default function ContactsPage() {
     if (!confirm("Delete this contact?")) return;
     await fetch(`/api/contacts/${id}`, { method: "DELETE" });
     setContacts((prev) => prev.filter((c) => c.id !== id));
+  }
+
+  function toggleEvent(key: string) {
+    setForm(prev => ({
+      ...prev,
+      invitedEvents: prev.invitedEvents.includes(key)
+        ? prev.invitedEvents.filter(e => e !== key)
+        : [...prev.invitedEvents, key],
+    }));
   }
 
   const filtered = filterGroup
@@ -141,6 +159,27 @@ export default function ContactsPage() {
             />
           </Field>
         </div>
+
+        {/* Event invitations */}
+        <div>
+          <span className="text-sm font-normal text-zinc-700 dark:text-zinc-300">
+            Invited to
+          </span>
+          <div className="flex flex-wrap gap-4 mt-2">
+            {ALL_EVENTS.map(({ key, label }) => (
+              <label key={key} className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={form.invitedEvents.includes(key)}
+                  onChange={() => toggleEvent(key)}
+                  className="rounded border-zinc-300 dark:border-zinc-600 text-viva-magenta focus:ring-viva-magenta"
+                />
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
         <div className="flex gap-3 pt-1">
           <button
             type="submit"
@@ -186,8 +225,8 @@ export default function ContactsPage() {
                 <th className="px-6 py-3 font-normal">Name</th>
                 <th className="px-6 py-3 font-normal">Phone</th>
                 <th className="px-6 py-3 font-normal">Email</th>
-                <th className="px-6 py-3 font-normal">Address</th>
                 <th className="px-6 py-3 font-normal">Group</th>
+                <th className="px-6 py-3 font-normal">Invited to</th>
                 <th className="px-6 py-3 font-normal"></th>
               </tr>
             </thead>
@@ -204,18 +243,36 @@ export default function ContactsPage() {
                   key={c.id}
                   className="border-b last:border-0 border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
                 >
-                  <td className="px-6 py-3 font-normal text-zinc-900 dark:text-zinc-100">
+                  <td className="px-6 py-3 font-normal text-zinc-900 dark:text-zinc-100 whitespace-nowrap">
                     {c.firstName} {c.lastName}
                   </td>
                   <td className="px-6 py-3 text-zinc-600 dark:text-zinc-400">{c.phone}</td>
                   <td className="px-6 py-3 text-zinc-600 dark:text-zinc-400">{c.email}</td>
-                  <td className="px-6 py-3 text-zinc-600 dark:text-zinc-400">{c.address ?? "—"}</td>
                   <td className="px-6 py-3">
                     <span className="inline-block px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs">
                       {c.group}
                     </span>
                   </td>
-                  <td className="px-6 py-3 text-right space-x-3">
+                  <td className="px-6 py-3">
+                    <div className="flex flex-wrap gap-1">
+                      {(c.invitedEvents ?? []).length === 0 ? (
+                        <span className="text-zinc-300 dark:text-zinc-700 text-xs">None</span>
+                      ) : (
+                        (c.invitedEvents ?? []).map(ev => {
+                          const found = ALL_EVENTS.find(e => e.key === ev);
+                          return (
+                            <span
+                              key={ev}
+                              className="inline-block px-2 py-0.5 rounded-full bg-viva-magenta/10 text-viva-magenta text-xs"
+                            >
+                              {found?.label ?? ev}
+                            </span>
+                          );
+                        })
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-6 py-3 text-right space-x-3 whitespace-nowrap">
                     <button
                       onClick={() => startEdit(c)}
                       className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
