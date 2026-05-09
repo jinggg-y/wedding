@@ -25,6 +25,17 @@ model SiteConfig {
   value String
 }
 
+model RegistryItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float?
+  url         String?
+  store       String?
+  purchased   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
 model Rsvp {
   id          String   @id @default(cuid())
   contact     Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)

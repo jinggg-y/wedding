@@ -24,6 +24,7 @@ export default function AdminNav() {
           <NavLink href="/admin/events" active={pathname === "/admin/events"}>Events</NavLink>
           <NavLink href="/admin/contacts" active={pathname === "/admin/contacts"}>Contacts</NavLink>
           <NavLink href="/admin/rsvp" active={pathname === "/admin/rsvp"}>RSVPs</NavLink>
+          <NavLink href="/admin/registry" active={pathname === "/admin/registry"}>Registry</NavLink>
           <button
             onClick={handleLogout}
             className="px-4 py-1.5 rounded-md text-sm font-normal text-zinc-400 hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors ml-2"

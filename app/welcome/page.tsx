@@ -1,35 +1,20 @@
 import Link from "next/link";
 import CeremonyCountdown from "./ceremony-countdown";
 import ScrollReveal from "./scroll-reveal";
+import Nav from "@/app/components/nav";
 
 export default function WelcomePage() {
   return (
-    <>
-      {/* Skip to main content */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-viva-magenta focus:text-cloud-dancer label"
-      >
-        Skip to main content
-      </a>
+    <div className="h-screen flex flex-col bg-cloud-dancer text-deep-charcoal">
+      <Nav />
 
-      <main id="main-content" className="snap-container bg-cloud-dancer text-deep-charcoal">
+      <main id="main-content" className="snap-container">
 
         {/* ── HERO ─────────────────────────────────────────── */}
         <section
           aria-label="Welcome"
           className="snap-section relative flex flex-col overflow-hidden"
         >
-          {/* Masthead — inside hero */}
-          <header
-            aria-hidden="true"
-            className="shrink-0 border-b border-deep-charcoal/10 px-8 md:px-20 py-4 flex justify-between items-center"
-            style={{ animation: "fadeUp 0.5s ease both" }}
-          >
-            <span className="label text-deep-charcoal/65">D &amp; J</span>
-            <span className="label text-deep-charcoal/65">2026 &middot; Brisbane</span>
-          </header>
-
           {/* Hero content */}
           <div className="flex-1 flex flex-col justify-center px-8 md:px-20 relative">
             {/* Ghost year watermark — decorative */}
@@ -261,6 +246,6 @@ export default function WelcomePage() {
         </footer>
 
       </main>
-    </>
+    </div>
   );
 }

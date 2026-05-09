@@ -35,7 +35,8 @@
 }
 
 .snap-container {
-  height: 100vh;
+  flex: 1;
+  min-height: 0;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -44,7 +45,7 @@
 .snap-section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
