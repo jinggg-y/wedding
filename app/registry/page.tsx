@@ -19,6 +19,7 @@ export default function RegistryPage() {
   const [items, setItems] = useState<RegistryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
+  const [thankedItem, setThankedItem] = useState<RegistryItem | null>(null);
 
   useEffect(() => {
     fetch("/api/registry")
@@ -29,14 +30,16 @@ export default function RegistryPage() {
 
   async function togglePurchased(item: RegistryItem) {
     setToggling(item.id);
+    const claiming = !item.purchased;
     const res = await fetch(`/api/registry/${item.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ purchased: !item.purchased }),
+      body: JSON.stringify({ purchased: claiming }),
     });
     if (res.ok) {
       const updated = await res.json();
       setItems(prev => prev.map(i => i.id === item.id ? updated : i));
+      if (claiming) setThankedItem(item);
     }
     setToggling(null);
   }
@@ -157,6 +160,75 @@ export default function RegistryPage() {
         )}
 
       </main>
+
+      {thankedItem && (
+        <ThankYouModal item={thankedItem} onClose={() => setThankedItem(null)} />
+      )}
+    </div>
+  );
+}
+
+function ThankYouModal({ item, onClose }: { item: RegistryItem; onClose: () => void }) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Thank you"
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0,
+        background: "rgba(28,26,23,0.55)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        zIndex: 50,
+        padding: "2rem",
+        animation: "fadeIn 0.25s ease both",
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: "#F4F0EB",
+          maxWidth: "28rem",
+          width: "100%",
+          padding: "3.5rem",
+          animation: "fadeUp 0.3s ease both",
+          position: "relative",
+        }}
+      >
+        <div aria-hidden="true" className="label text-viva-magenta mb-8 text-[0.65rem]">
+          Thank you
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-cormorant-garamond)",
+            fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
+            fontWeight: 300,
+            letterSpacing: "0.04em",
+            lineHeight: 1.2,
+            marginBottom: "1.5rem",
+          }}
+        >
+          You&rsquo;re getting<br />
+          <em style={{ fontStyle: "italic" }}>{item.name}.</em>
+        </div>
+        <p
+          style={{
+            fontFamily: "var(--font-open-sans)",
+            fontSize: "0.825rem",
+            color: "rgba(28,26,23,0.80)",
+            lineHeight: 1.85,
+            marginBottom: "2.5rem",
+          }}
+        >
+          Dimitrije &amp; Jing are so grateful. We&rsquo;ve marked this gift as taken so no one else picks the same one.
+        </p>
+        <button
+          onClick={onClose}
+          className="label px-8 py-3 bg-deep-charcoal text-cloud-dancer hover:opacity-80 transition-opacity duration-300 text-[0.65rem]"
+        >
+          Close
+        </button>
+      </div>
     </div>
   );
 }
@@ -268,3 +340,4 @@ function ItemCard({
     </div>
   );
 }
+  

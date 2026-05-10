@@ -5,7 +5,19 @@
       "PowerShell(npx prisma db push 2>&1)",
       "PowerShell(npx prisma generate 2>&1 | Select-Object -Last 3)",
       "PowerShell(npm run *)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\YANGJ\\\\repos\\\\wedding\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "Bash(npx prisma *)",
+      "Bash(npx tsx *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit *)",
+      "Bash(npx dotenv-cli -e .env -- npx tsx -e ' *)",
+      "Bash(node *)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)",
+      "Bash(git push *)"
     ]
   }
 }
