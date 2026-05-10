@@ -14,7 +14,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { name, description, price, url, store } = await request.json();
+    const { name, description, price, url, store, imageUrl } = await request.json();
     if (!name) return Response.json({ error: "Name is required" }, { status: 400 });
     const item = await prisma.registryItem.create({
       data: {
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
         price: price ? parseFloat(price) : null,
         url: url || null,
         store: store || null,
+        imageUrl: imageUrl || null,
       },
     });
     return Response.json(item, { status: 201 });

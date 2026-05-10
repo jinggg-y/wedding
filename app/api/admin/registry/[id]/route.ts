@@ -15,6 +15,7 @@ export async function PATCH(
         ...(data.price !== undefined && { price: data.price ? parseFloat(data.price) : null }),
         ...(data.url !== undefined && { url: data.url || null }),
         ...(data.store !== undefined && { store: data.store || null }),
+        ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl || null }),
         ...(data.purchased !== undefined && { purchased: data.purchased }),
       },
     });

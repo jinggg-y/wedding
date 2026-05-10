@@ -9,10 +9,11 @@ interface RegistryItem {
   price: number | null;
   url: string | null;
   store: string | null;
+  imageUrl: string | null;
   purchased: boolean;
 }
 
-const emptyForm = { name: "", description: "", price: "", url: "", store: "" };
+const emptyForm = { name: "", description: "", price: "", url: "", store: "", imageUrl: "" };
 
 export default function AdminRegistryPage() {
   const [items, setItems] = useState<RegistryItem[]>([]);
@@ -81,6 +82,9 @@ export default function AdminRegistryPage() {
           <Field label="Link">
             <input type="url" value={form.url} onChange={e => setForm({ ...form, url: e.target.value })} placeholder="https://…" />
           </Field>
+          <Field label="Image URL" className="sm:col-span-2">
+            <input type="url" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} placeholder="https://…" />
+          </Field>
           <Field label="Description" className="sm:col-span-2">
             <input type="text" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Optional short description" />
           </Field>
@@ -121,15 +125,23 @@ export default function AdminRegistryPage() {
               {items.map(item => (
                 <tr key={item.id} className="border-b last:border-0 border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                   <td className="px-6 py-3 text-zinc-900 dark:text-zinc-100">
-                    <div className="font-normal">{item.name}</div>
-                    {item.description && (
-                      <div className="text-xs text-zinc-400 mt-0.5">{item.description}</div>
-                    )}
-                    {item.url && (
-                      <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xs text-viva-magenta hover:underline mt-0.5 block truncate max-w-[200px]">
-                        {item.url}
-                      </a>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {item.imageUrl && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={item.imageUrl} alt="" className="w-10 h-10 object-cover rounded shrink-0" />
+                      )}
+                      <div>
+                        <div className="font-normal">{item.name}</div>
+                        {item.description && (
+                          <div className="text-xs text-zinc-400 mt-0.5">{item.description}</div>
+                        )}
+                        {item.url && (
+                          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xs text-viva-magenta hover:underline mt-0.5 block truncate max-w-[200px]">
+                            {item.url}
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">{item.store ?? "—"}</td>
                   <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">

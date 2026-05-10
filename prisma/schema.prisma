@@ -32,6 +32,7 @@ model RegistryItem {
   price       Float?
   url         String?
   store       String?
+  imageUrl    String?
   purchased   Boolean  @default(false)
   createdAt   DateTime @default(now())
 }

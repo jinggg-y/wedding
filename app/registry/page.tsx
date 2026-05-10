@@ -11,6 +11,7 @@ interface RegistryItem {
   price: number | null;
   url: string | null;
   store: string | null;
+  imageUrl: string | null;
   purchased: boolean;
 }
 
@@ -171,10 +172,21 @@ function ItemCard({
 }) {
   return (
     <div
-      className="bg-cloud-dancer p-8 flex flex-col gap-4"
+      className="bg-cloud-dancer flex flex-col"
       style={{ opacity: item.purchased ? 0.5 : 1, transition: "opacity 0.3s" }}
     >
-      <div className="flex items-start justify-between gap-4">
+      {item.imageUrl && (
+        <div style={{ aspectRatio: "4/3", overflow: "hidden", background: "rgba(28,26,23,0.04)" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={item.imageUrl}
+            alt={item.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </div>
+      )}
+      <div className="p-8 flex flex-col gap-4 flex-1">
+        <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div
             style={{
@@ -188,7 +200,7 @@ function ItemCard({
           >
             {item.name}
           </div>
-          {item.store && (
+            {item.store && (
             <div className="label text-deep-charcoal/65 text-[0.65rem] mt-1">
               {item.store}
             </div>
@@ -208,39 +220,50 @@ function ItemCard({
             ${item.price.toFixed(0)}
           </div>
         )}
-      </div>
+        </div>
 
-      {item.description && (
-        <p
-          style={{
-            fontFamily: "var(--font-open-sans)",
-            fontSize: "0.8rem",
-            color: "rgba(28,26,23,0.80)",
-            lineHeight: 1.75,
-          }}
-        >
-          {item.description}
-        </p>
-      )}
-
-      <div className="flex items-center gap-4 mt-auto pt-2">
-        {item.url && !item.purchased && (
-          <a
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="label text-viva-magenta hover:text-viva-magenta-hover transition-colors duration-300 text-[0.65rem]"
+        {item.description && (
+          <p
+            style={{
+              fontFamily: "var(--font-open-sans)",
+              fontSize: "0.8rem",
+              color: "rgba(28,26,23,0.80)",
+              lineHeight: 1.75,
+            }}
           >
-            View gift &rarr;
-          </a>
+            {item.description}
+          </p>
         )}
-        <button
-          onClick={onToggle}
-          disabled={toggling}
-          className="label text-deep-charcoal/65 hover:text-deep-charcoal transition-colors duration-300 text-[0.65rem] disabled:opacity-40 ml-auto"
-        >
-          {toggling ? "…" : item.purchased ? "Mark as available" : "Mark as claimed"}
-        </button>
+
+        <div className="flex items-center gap-4 mt-auto pt-2">
+          {item.url && !item.purchased && (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="label text-viva-magenta hover:text-viva-magenta-hover transition-colors duration-300 text-[0.65rem]"
+            >
+              View gift &rarr;
+            </a>
+          )}
+          {item.purchased ? (
+            <button
+              onClick={onToggle}
+              disabled={toggling}
+              className="label text-deep-charcoal/65 hover:text-deep-charcoal transition-colors duration-300 text-[0.65rem] disabled:opacity-40 ml-auto"
+            >
+              {toggling ? "…" : "Mark as available"}
+            </button>
+          ) : (
+            <button
+              onClick={onToggle}
+              disabled={toggling}
+              className="label px-6 py-2.5 bg-viva-magenta text-cloud-dancer hover:bg-viva-magenta-hover transition-colors duration-300 text-[0.65rem] disabled:opacity-40 ml-auto"
+            >
+              {toggling ? "…" : "I've got this"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
