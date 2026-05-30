@@ -58,6 +58,7 @@ function StatusChip({ status }: { status: ReturnType<typeof getRsvpStatus> }) {
 export default function AdminRsvpPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [filterEvent, setFilterEvent] = useState<EventKey | "all">("all");
   const [filterStatus, setFilterStatus] = useState<StatusFilter>("all");
 
@@ -65,7 +66,7 @@ export default function AdminRsvpPage() {
     fetch("/api/admin/rsvp")
       .then(r => r.json())
       .then(data => { setContacts(data); setLoading(false); })
-      .catch(() => setLoading(false));
+      .catch(() => { setError("Failed to load RSVPs."); setLoading(false); });
   }, []);
 
   // Summary stats
@@ -111,6 +112,8 @@ export default function AdminRsvpPage() {
   function getNotes(contact: Contact): string {
     return contact.rsvps.find(r => r.notes)?.notes || "—";
   }
+
+  if (error) return <p className="text-red-600 text-sm">{error}</p>;
 
   return (
     <>
