@@ -189,7 +189,6 @@ Countdown numbers (`#BB2649` on `#1C1A17` = 3.0:1) sit at large size (≥ 48px) 
 - `:focus-visible` outline: `2px solid #BB2649`, `offset 4px`
 - Never suppress the focus ring; use `:focus-visible` to avoid showing it on mouse click
 - Focus order follows visual reading order (top → bottom, left → right)
-- Skip-to-content link is the first focusable element on every page
 
 ### Motion
 

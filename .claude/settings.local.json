@@ -17,7 +17,9 @@
       "Bash(node *)",
       "Bash(npx tsc *)",
       "Bash(npx next *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(dir C:\\\\Users\\\\YANGJ\\\\repos\\\\wedding *)",
+      "Bash(xargs wc -l)"
     ]
   }
 }
